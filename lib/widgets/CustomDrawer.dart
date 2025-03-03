@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_supabase_milk_shop/screens/SettingScreen.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -60,7 +62,12 @@ class CustomDrawer extends StatelessWidget {
               title: Text('Settings'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/settings');
+                Navigator.push(
+                  parentContext,
+                  MaterialPageRoute(
+                    builder: (context) => SettingScreen(title: 'Settings'),
+                  ),
+                );
               },
             ),
             ListTile(
