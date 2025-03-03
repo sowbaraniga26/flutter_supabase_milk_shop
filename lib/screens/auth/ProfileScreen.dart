@@ -100,7 +100,7 @@
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Logged out')),
                     );
-  
+
                   },
                   child: const Text(
                     'Logout',
