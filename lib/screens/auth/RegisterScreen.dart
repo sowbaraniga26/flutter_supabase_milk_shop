@@ -17,6 +17,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -29,6 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
+    nameController.text = "admin";
+    phoneController.text = "1234567890";
     emailController.text = "admin@gmail.com";
     passwordController.text = "admin@123";
   }
@@ -41,6 +45,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await supabase.auth.signUp(
         email: emailController.text,
         password: passwordController.text,
+          data: {
+            'name': nameController.text, // Add the name field
+            'phone': phoneController.text, // Add the phone field
+          },
       );
 
       Fluttertoast.showToast(msg: "Registration Successful!");
@@ -92,7 +100,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+              children: [
+                TextFormField(
+                  controller: nameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(labelText: 'Full Name'),
+                  validator: (value) =>
+                  value!.isEmpty ? 'Enter a valid Full Name' : null,
+                ),
+
+                SizedBox(height: 10),
+
+                TextFormField(
+                  controller: phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(labelText: 'Phone'),
+                  validator: (value) =>
+                  value!.isEmpty ? 'Enter a valid Phone' : null,
+                ),
+
+                SizedBox(height: 10),
+
               TextFormField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -100,7 +128,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 validator: (value) =>
                 value!.isEmpty ? 'Enter a valid email' : null,
               ),
+
               SizedBox(height: 10),
+
               TextFormField(
                 controller: passwordController,
                 obscureText: _obscureText,
