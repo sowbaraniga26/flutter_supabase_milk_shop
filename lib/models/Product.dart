@@ -34,4 +34,10 @@ import 'Variant.dart';
             'variants': variants.map((variant) => variant.toJson()).toList(),
           };
         }
+        factory Product.placeholder() => Product(
+          id: 0,
+          name: 'Unknown Product',
+          image_path: '',
+          variants: [],
+        );
       }
