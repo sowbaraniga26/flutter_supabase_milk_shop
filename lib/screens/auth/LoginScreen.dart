@@ -1,4 +1,6 @@
     import 'package:flutter/material.dart';
+
+    import 'package:flutter_supabase_milk_shop/screens/HomePage.dart';
     import 'package:supabase_flutter/supabase_flutter.dart';
     import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -51,7 +53,7 @@
             // Navigate to home screen
             Navigator.pop(context);
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => HomeScreen(title: 'Home')),
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
           }
         } catch (error) {
