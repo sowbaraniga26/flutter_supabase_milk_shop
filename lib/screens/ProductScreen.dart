@@ -1,4 +1,6 @@
         import 'package:flutter/material.dart';
+
+        import 'package:flutter_supabase_milk_shop/widgets/CustomDrawer.dart';
         import 'package:supabase_flutter/supabase_flutter.dart';
 
         import '../models/Product.dart';
@@ -79,6 +81,8 @@
               appBar: AppBar(
                 title: Text(widget.title),
               ),
+              drawer: CustomDrawer(parentContext: context),
+
               body: isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : RefreshIndicator(
@@ -143,6 +147,49 @@
                 builder: (context) => ProductDetailScreen(product: widget.product),
               ),
             );
+          }
+
+          Future<void> addToCart() async {
+            final user = _supabase.auth.currentUser;
+            if (user == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please log in to add items to your cart')),
+              );
+              return;
+            }
+
+            final product = widget.product;
+            final variant = product.variants[selectedVariantIndex];
+
+            // setState(() => isAddingToCart = true);
+
+            try {
+              final response = await _supabase.from('carts').insert({
+                'product_id': product.id,
+                'variant_id': variant.id,
+                'qty': 1, // Default quantity, can be made dynamic
+                'price': variant.unitPrice,
+                'attributes': {}, // Add any attributes if needed
+                'user_id': user.id,
+                'subscription_plan_id': selectedPlan?.id
+              });
+
+              if (response != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('${product.name} added to cart')),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Failed to add to cart')),
+                );
+              }
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: $e')),
+              );
+            } finally {
+              // setState(() => isAddingToCart = false);
+            }
           }
 
           @override
@@ -257,6 +304,7 @@
                               SnackBar(content: Text('${product.name} added to cart')),
                             );
 
+                            addToCart();
 
                           },
                           style: ElevatedButton.styleFrom(
