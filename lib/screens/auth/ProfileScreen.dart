@@ -36,6 +36,7 @@
         appBar: AppBar(
           title: Text(widget.title),
         ),
+        drawer: CustomDrawer(parentContext: context),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
