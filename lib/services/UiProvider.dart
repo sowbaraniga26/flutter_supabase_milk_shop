@@ -52,7 +52,7 @@
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             // backgroundColor: Colors.pink, // TextButton color
-            foregroundColor: Color(0xFF0067A1), // TextButton color
+              foregroundColor: Color(0xFF0067A1),  // TextButton color
           ),
         ),
 
